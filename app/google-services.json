@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "543608491623",
+    "project_id": "huertohogar-41f4f",
+    "storage_bucket": "huertohogar-41f4f.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:543608491623:android:fecb83bf177a993941cec2",
+        "android_client_info": {
+          "package_name": "com.brzdev.huertohogar"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAaM2SISfbniH_LPOkbVHetQ8yiMEjhH2Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
