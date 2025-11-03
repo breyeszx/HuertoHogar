@@ -2,8 +2,8 @@ package com.brzdev.huertohogar.ui
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.automirrored.filled.ExitToApp // <-- NUEVO ICONO
-import androidx.compose.material.icons.filled.Person // <-- NUEVO ICONO
+import androidx.compose.material.icons.automirrored.filled.ExitToApp
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -18,7 +18,7 @@ fun HuertoHogarTopAppBar(
     onProfileClick: () -> Unit,
     onSignOutClick: () -> Unit,
     showCartIcon: Boolean = true,
-    showProfileIcon: Boolean = true // <-- NUEVO PARÁMETRO
+    showProfileIcon: Boolean = true
 ) {
     TopAppBar(
         title = { Text(title) },
@@ -32,7 +32,7 @@ fun HuertoHogarTopAppBar(
                 }
             }
         },
-        // Aquí está el cambio principal:
+
         actions = {
             if (showCartIcon) {
                 IconButton(onClick = onCartClick) {

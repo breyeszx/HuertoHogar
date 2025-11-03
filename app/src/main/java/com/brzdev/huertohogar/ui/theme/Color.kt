@@ -2,13 +2,13 @@ package com.brzdev.huertohogar.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-// Tu nueva paleta de colores
-val HuertoDarkPlum = Color(0xFF413C58)  // El morado oscuro/indigo
-val HuertoMutedTeal = Color(0xFFA3C4BC) // El verde-azulado medio
-val HuertoSoftGreen = Color(0xFFBFD7B5) // El verde suave
-val HuertoPaleLime = Color(0xFFE7EFC5)  // El amarillo-verde más claro
+val CremaNatural = Color(0xFFFCFAF5)
+val MarronOscuro = Color(0xFF413620)
+val VerdeBosque = Color(0xFF386641)
+val VerdeHojaSuave = Color(0xFFBCDEB4)
+val NaranjaZanahoria = Color(0xFFF28123)
 
-// (Aquí puedes dejar los colores por defecto de Material 3 si quieres)
+
 val Purple80 = Color(0xFFD0BCFF)
 val PurpleGrey80 = Color(0xFFCCC2DC)
 val Pink80 = Color(0xFFEFB8C8)

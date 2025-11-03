@@ -24,9 +24,9 @@ fun CategoryFilterBar(
         items(categories) { category ->
             FilterChip(
                 modifier = Modifier.padding(horizontal = 4.dp),
-                // Marca el chip como seleccionado si coincide con la categoría
+
                 selected = (category == selectedCategory),
-                // Llama a la función del ViewModel cuando se hace clic
+
                 onClick = { onCategorySelected(category) },
                 label = { Text(category) }
             )

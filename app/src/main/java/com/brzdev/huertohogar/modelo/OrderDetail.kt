@@ -6,20 +6,19 @@ import androidx.room.PrimaryKey
 
 @Entity(
     tableName = "order_details",
-    // Define la relación entre OrderDetail y Order
     foreignKeys = [
         ForeignKey(
             entity = Order::class,
             parentColumns = ["orderId"],
             childColumns = ["orderOwnerId"],
-            onDelete = ForeignKey.CASCADE // Si se borra una orden, se borran sus detalles
+            onDelete = ForeignKey.CASCADE
         )
     ]
 )
 data class OrderDetail(
     @PrimaryKey(autoGenerate = true)
     val detailId: Int = 0,
-    val orderOwnerId: Int, // El ID de la orden a la que pertenece
+    val orderOwnerId: Int,
     val productName: String,
     val quantity: Int,
     val pricePerUnit: Double

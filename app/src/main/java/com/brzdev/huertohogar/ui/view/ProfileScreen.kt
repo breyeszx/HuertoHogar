@@ -1,7 +1,6 @@
 package com.brzdev.huertohogar.ui.view
 
 import android.Manifest
-import android.content.Context
 import android.content.pm.PackageManager
 import android.location.Geocoder
 import android.widget.Toast
@@ -27,11 +26,11 @@ fun ProfileScreen(authViewModel: AuthViewModel) {
     val userProfile by authViewModel.currentUser.collectAsState()
     val context = LocalContext.current
 
-    // Estados locales para los campos de texto
+
     var address by remember { mutableStateOf("") }
     var phone by remember { mutableStateOf("") }
 
-    // Rellena los campos cuando se carga el perfil desde la DB
+
     LaunchedEffect(userProfile) {
         userProfile?.let {
             address = it.address
@@ -39,20 +38,18 @@ fun ProfileScreen(authViewModel: AuthViewModel) {
         }
     }
 
-    // --- INICIO DE LÓGICA DE UBICACIÓN ---
 
-    // 1. Inicializa el cliente de ubicación y el geocodificador
     val locationClient = remember { LocationServices.getFusedLocationProviderClient(context) }
     val geocoder = remember(context) { Geocoder(context, Locale.getDefault()) }
 
-    // 2. Función para convertir Lat/Lon en Dirección
+
     fun getAddressFromLocation(lat: Double, lon: Double) {
         try {
-            // deprecatedGetFromLocation es más simple para este caso
+
             val addresses = geocoder.getFromLocation(lat, lon, 1)
             if (addresses != null && addresses.isNotEmpty()) {
                 val foundAddress = addresses[0]
-                // Formatea la dirección como un string
+
                 address = foundAddress.getAddressLine(0) ?: "Dirección no encontrada"
             }
         } catch (e: Exception) {
@@ -60,15 +57,15 @@ fun ProfileScreen(authViewModel: AuthViewModel) {
         }
     }
 
-    // 3. Función para obtener la ubicación (¡requiere chequeo de permiso!)
+
     fun fetchCurrentLocation() {
-        // Esta comprobación es obligatoria
+
         if (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
 
             locationClient.lastLocation
                 .addOnSuccessListener { location ->
                     if (location != null) {
-                        // ¡Tenemos la ubicación! Ahora la convertimos
+
                         getAddressFromLocation(location.latitude, location.longitude)
                     } else {
                         Toast.makeText(context, "No se pudo obtener la ubicación. Activa el GPS.", Toast.LENGTH_SHORT).show()
@@ -80,35 +77,34 @@ fun ProfileScreen(authViewModel: AuthViewModel) {
         }
     }
 
-    // 4. Lanzador de permisos: esto pide el permiso al usuario
+
     val permissionLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestPermission(),
         onResult = { isGranted ->
             if (isGranted) {
-                // Permiso concedido, obtenemos la ubicación
+
                 fetchCurrentLocation()
             } else {
-                // Permiso denegado
+
                 Toast.makeText(context, "Permiso de ubicación denegado", Toast.LENGTH_SHORT).show()
             }
         }
     )
 
-    // 5. Función de ayuda para chequear y pedir permiso
+
     fun checkAndRequestPermission() {
         when (PackageManager.PERMISSION_GRANTED) {
             ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) -> {
-                // Si el permiso YA está concedido
+
                 fetchCurrentLocation()
             }
             else -> {
-                // Si el permiso NO está concedido, lo pedimos
+
                 permissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
             }
         }
     }
 
-    // --- FIN DE LÓGICA DE UBICACIÓN ---
 
 
     Column(
@@ -123,15 +119,13 @@ fun ProfileScreen(authViewModel: AuthViewModel) {
         Text("Conectado como: ${userProfile?.email ?: ""}", style = MaterialTheme.typography.bodyLarge)
         Spacer(modifier = Modifier.height(32.dp))
 
-        // --- Campo de Dirección (ahora se actualiza localmente) ---
         OutlinedTextField(
             value = address,
-            onValueChange = { address = it }, // Permite al usuario editar manualmente
+            onValueChange = { address = it },
             label = { Text("Dirección de Entrega") },
             modifier = Modifier.fillMaxWidth()
         )
 
-        // --- NUEVO BOTÓN ---
         TextButton(
             onClick = { checkAndRequestPermission() },
             modifier = Modifier.fillMaxWidth()
@@ -152,7 +146,7 @@ fun ProfileScreen(authViewModel: AuthViewModel) {
 
         Button(
             onClick = {
-                // Guarda los datos de los estados locales
+
                 authViewModel.saveUserProfile(address, phone, context)
             },
             modifier = Modifier.fillMaxWidth()

@@ -7,8 +7,8 @@ import androidx.room.PrimaryKey
 data class Order(
     @PrimaryKey(autoGenerate = true)
     val orderId: Int = 0,
-    val userOwnerId: Int, // El ID del usuario que hizo la orden
-    val date: Long, // La fecha de la orden
+    val userOwnerId: Int,
+    val date: Long,
     val total: Double,
-    val shippingAddress: String // La dirección de envío guardada
+    val shippingAddress: String
 )

@@ -25,7 +25,7 @@ fun CartItemCard(
     onRemove: () -> Unit
 ) {
     val format = NumberFormat.getCurrencyInstance(Locale("es", "CL"))
-    // Calcula el subtotal para este ítem
+
     val subtotal = cartItem.product.price * cartItem.quantity
 
     Card(
@@ -45,7 +45,6 @@ fun CartItemCard(
             )
             Spacer(modifier = Modifier.width(16.dp))
 
-            // Nombre y Subtotal
             Column(modifier = Modifier.weight(1f)) {
                 Text(cartItem.product.name, style = MaterialTheme.typography.titleMedium)
                 Text(
@@ -55,7 +54,7 @@ fun CartItemCard(
                 )
             }
 
-            // Botones de control
+
             Row(verticalAlignment = Alignment.CenterVertically) {
                 IconButton(onClick = onDecrease) {
                     Icon(Icons.Default.ArrowBack, contentDescription = "Disminuir cantidad")
@@ -68,7 +67,7 @@ fun CartItemCard(
                     Icon(
                         Icons.Default.Delete,
                         contentDescription = "Eliminar ítem",
-                        tint = MaterialTheme.colorScheme.error // Color rojo para eliminar
+                        tint = MaterialTheme.colorScheme.error
                     )
                 }
             }

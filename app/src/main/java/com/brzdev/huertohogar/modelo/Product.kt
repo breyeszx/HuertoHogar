@@ -6,7 +6,6 @@ data class Product(
     val price: Double,
     val stock: Int,
     val description: String,
-    val unit: String, // e.g., "kilo", "bolsa de 500g", "frasco de 500g"
+    val unit: String,
     val category: String,
-    val imageUrl: String // To store a link to the product image
-)
+    val imageUrl: String)

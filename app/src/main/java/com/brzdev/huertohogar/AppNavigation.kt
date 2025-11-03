@@ -21,6 +21,7 @@ import com.brzdev.huertohogar.ui.HuertoHogarTopAppBar
 import com.brzdev.huertohogar.ui.ProductDetailScreen
 import com.brzdev.huertohogar.ui.view.CartScreen
 import com.brzdev.huertohogar.ui.view.CheckoutScreen
+import com.brzdev.huertohogar.ui.view.HomeScreen
 import com.brzdev.huertohogar.ui.view.LoginScreen
 import com.brzdev.huertohogar.ui.view.ProductListScreen
 import com.brzdev.huertohogar.ui.view.ProfileScreen
@@ -28,6 +29,7 @@ import com.brzdev.huertohogar.ui.view.SignUpScreen
 import com.brzdev.huertohogar.viewmodel.AuthViewModel
 import com.brzdev.huertohogar.viewmodel.AuthState
 import com.brzdev.huertohogar.viewmodel.CartViewModel
+import com.brzdev.huertohogar.viewmodel.ProductViewModel
 
 @Composable
 fun AppNavigation() {
@@ -77,14 +79,16 @@ fun AuthNavigation(authViewModel: AuthViewModel) {
     }
 }
 
-// --- NAVEGACIÓN PRINCIPAL DE LA APP (Tienda, Carrito, etc.) ---
 @Composable
 fun MainAppNavigation(authViewModel: AuthViewModel, cartViewModel: CartViewModel) {
     val navController = rememberNavController()
     val backStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = backStackEntry?.destination?.route
 
+    val productViewModel: ProductViewModel = viewModel()
+
     val currentScreenTitle = when (currentRoute) {
+        "home" -> "Inicio"
         "productList" -> "Productos"
         "productDetail/{productId}" -> "Detalle del Producto"
         "cart" -> "Mi Carrito"
@@ -94,11 +98,9 @@ fun MainAppNavigation(authViewModel: AuthViewModel, cartViewModel: CartViewModel
         else -> "Huerto Hogar"
     }
 
-    // --- LÓGICA DE ICONOS ACTUALIZADA ---
     val routesToHideCart = listOf("cart", "profile", "checkout", "storeMap")
     val showCartIcon = currentRoute !in routesToHideCart
     val showProfileIcon = currentRoute != "profile"
-    // --- FIN DE LÓGICA DE ICONOS ---
 
     Scaffold(
         topBar = {
@@ -107,12 +109,10 @@ fun MainAppNavigation(authViewModel: AuthViewModel, cartViewModel: CartViewModel
                 canNavigateBack = navController.previousBackStackEntry != null,
                 navigateUp = { navController.navigateUp() },
 
-                // Pasa las acciones
                 onCartClick = { navController.navigate("cart") },
                 onProfileClick = { navController.navigate("profile") },
                 onSignOutClick = { authViewModel.signOut() },
 
-                // Pasa la lógica de visibilidad
                 showCartIcon = showCartIcon,
                 showProfileIcon = showProfileIcon
             )
@@ -120,16 +120,26 @@ fun MainAppNavigation(authViewModel: AuthViewModel, cartViewModel: CartViewModel
     ) { innerPadding ->
         NavHost(
             navController = navController,
-            startDestination = "productList",
+            startDestination = "home",
             modifier = Modifier.padding(innerPadding)
         ) {
+
+            composable("home") {
+                HomeScreen(
+                    navController = navController,
+                    viewModel = productViewModel
+                )
+            }
+
             composable("productList") {
                 ProductListScreen(
                     onProductClick = { productId ->
                         navController.navigate("productDetail/$productId")
-                    }
+                    },
+                    productViewModel = productViewModel
                 )
             }
+
             composable("productDetail/{productId}") { backStackEntry ->
                 val productId = backStackEntry.arguments?.getString("productId")
                 val product = DataSource.products.find { it.id == productId }
@@ -140,12 +150,14 @@ fun MainAppNavigation(authViewModel: AuthViewModel, cartViewModel: CartViewModel
                     )
                 }
             }
+
             composable("cart") {
                 CartScreen(
                     viewModel = cartViewModel,
                     onCheckoutClick = { navController.navigate("checkout") }
                 )
             }
+
             composable("checkout") {
                 CheckoutScreen(
                     authViewModel = authViewModel,
@@ -157,9 +169,11 @@ fun MainAppNavigation(authViewModel: AuthViewModel, cartViewModel: CartViewModel
                     }
                 )
             }
+
             composable("profile") {
                 ProfileScreen(authViewModel = authViewModel)
             }
+
 
         }
     }

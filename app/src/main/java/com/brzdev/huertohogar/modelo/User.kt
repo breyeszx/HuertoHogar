@@ -7,7 +7,6 @@ import androidx.room.PrimaryKey
 
 @Entity(
     tableName = "users",
-    // Asegura que no puedan existir dos usuarios con el mismo email
     indices = [Index(value = ["email"], unique = true)]
 )
 data class User(
@@ -16,7 +15,6 @@ data class User(
 
     val email: String,
 
-    // NUNCA guardaremos la contraseña, solo su "hash"
     val hashedPassword: String,
 
     val address: String = "",

@@ -13,19 +13,16 @@ class SessionManager(context: Context) {
         prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
     }
 
-    // Guarda el ID del usuario que inició sesión
     fun saveSession(uid: Int) {
         val editor = prefs.edit()
         editor.putInt(KEY_USER_ID, uid)
         editor.apply()
     }
 
-    // Obtiene el ID del usuario actual. Devuelve -1 si nadie ha iniciado sesión.
     fun getUserId(): Int {
         return prefs.getInt(KEY_USER_ID, -1)
     }
 
-    // Cierra la sesión
     fun clearSession() {
         val editor = prefs.edit()
         editor.remove(KEY_USER_ID)

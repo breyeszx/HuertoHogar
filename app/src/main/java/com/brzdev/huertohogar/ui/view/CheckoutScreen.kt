@@ -28,7 +28,7 @@ fun CheckoutScreen(
     onOrderSuccess: () -> Unit
 ) {
     val user by authViewModel.currentUser.collectAsState()
-    val cartItems by cartViewModel.cartItems.collectAsState() // Observa los ítems del carrito
+    val cartItems by cartViewModel.cartItems.collectAsState()
     val total = cartItems.sumOf { it.product.price * it.quantity }
 
     val format = NumberFormat.getCurrencyInstance(Locale("es", "CL"))
@@ -84,8 +84,8 @@ fun CheckoutScreen(
                             total = total,
                             context = context,
                             onOrderPlaced = {
-                                cartViewModel.clearCart() // VACIAR EL CARRITO
-                                onOrderSuccess() // Navegar de vuelta
+                                cartViewModel.clearCart()
+                                onOrderSuccess()
                             }
                         )
                     }

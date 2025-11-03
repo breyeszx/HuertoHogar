@@ -21,15 +21,15 @@ import java.util.Locale
 @Composable
 fun ProductDetailScreen(
     product: Product,
-    onAddToCartClicked: () -> Unit // Callback para manejar el clic del botón
+    onAddToCartClicked: () -> Unit
 ) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .verticalScroll(rememberScrollState()) // Hace que la columna sea desplazable
+            .verticalScroll(rememberScrollState())
     ) {
         AsyncImage(
-            model = "https://picsum.photos/seed/${product.id}/600/400", // Imagen más grande
+            model = "https://picsum.photos/seed/${product.id}/600/400",
             contentDescription = "Imagen de ${product.name}",
             modifier = Modifier
                 .fillMaxWidth()
@@ -78,7 +78,7 @@ fun ProductDetailScreen(
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            // Botón para agregar al carrito
+
             Button(
                 onClick = onAddToCartClicked,
                 modifier = Modifier
@@ -95,6 +95,6 @@ fun ProductDetailScreen(
 fun ProductDetailScreenPreview() {
     ProductDetailScreen(
         product = DataSource.products.first(),
-        onAddToCartClicked = {} // Acción vacía para la previsualización
+        onAddToCartClicked = {}
     )
 }

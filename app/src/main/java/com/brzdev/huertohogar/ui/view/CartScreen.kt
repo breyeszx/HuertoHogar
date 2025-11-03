@@ -21,14 +21,14 @@ import java.util.Locale
 @Composable
 fun CartScreen(viewModel: CartViewModel,onCheckoutClick: () -> Unit) {
 
-    // Observa la lista de ítems del ViewModel
+
     val cartItems by viewModel.cartItems.collectAsState()
-    // Calcula el total
+
     val total = cartItems.sumOf { it.product.price * it.quantity }
     val format = NumberFormat.getCurrencyInstance(Locale("es", "CL"))
 
     if (cartItems.isEmpty()) {
-        // Muestra un mensaje si el carrito está vacío
+
         Box(
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center
@@ -36,7 +36,7 @@ fun CartScreen(viewModel: CartViewModel,onCheckoutClick: () -> Unit) {
             Text("Tu carrito está vacío", style = MaterialTheme.typography.titleLarge)
         }
     } else {
-        // Muestra la lista de ítems y el total
+
         Column(Modifier.fillMaxSize()) {
             LazyColumn(
                 modifier = Modifier.weight(1f), // Ocupa todo el espacio disponible
@@ -52,7 +52,7 @@ fun CartScreen(viewModel: CartViewModel,onCheckoutClick: () -> Unit) {
                 }
             }
 
-            // Resumen del Total y Botón de Pago
+
             Column(
                 modifier = Modifier
                     .fillMaxWidth()

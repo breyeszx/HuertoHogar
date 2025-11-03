@@ -1,8 +1,9 @@
-package com.brzdev.huertohogar.ui.view
+package com.brzdev.huertohogar.ui
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -15,19 +16,18 @@ import com.brzdev.huertohogar.data.DataSource
 import com.brzdev.huertohogar.model.Product
 import java.text.NumberFormat
 import java.util.Locale
-import androidx.compose.material3.ExperimentalMaterial3Api
 
-@OptIn(ExperimentalMaterial3Api::class) // Required for Card onClick
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProductCard(
     product: Product,
     modifier: Modifier = Modifier,
-    onCardClick: () -> Unit // Add this callback parameter
+    onCardClick: () -> Unit
 ) {
     Card(
         modifier = modifier.padding(horizontal = 16.dp, vertical = 8.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
-        onClick = onCardClick // Make the card clickable
+        onClick = onCardClick,
     ) {
         Row(
             modifier = Modifier
@@ -35,7 +35,7 @@ fun ProductCard(
                 .padding(16.dp)
         ) {
             AsyncImage(
-                model = "https://picsum.photos/seed/${product.id}/200", // Using a placeholder image service
+                model = "https://picsum.photos/seed/${product.id}/200",
                 contentDescription = "Image of ${product.name}",
                 modifier = Modifier.size(100.dp),
                 contentScale = ContentScale.Crop
@@ -45,6 +45,7 @@ fun ProductCard(
                 Text(
                     text = product.name,
                     style = MaterialTheme.typography.headlineSmall
+
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 val format = NumberFormat.getCurrencyInstance(Locale("es", "CL"))
@@ -62,3 +63,8 @@ fun ProductCard(
     }
 }
 
+@Preview(showBackground = true)
+@Composable
+fun ProductCardPreview() {
+    ProductCard(product = DataSource.products.first(), onCardClick = {})
+}
