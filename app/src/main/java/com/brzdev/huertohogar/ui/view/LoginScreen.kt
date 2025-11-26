@@ -14,6 +14,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import com.brzdev.huertohogar.R
+import com.brzdev.huertohogar.ui.theme.Montserrat
 
 @Composable
 fun LoginScreen(
@@ -31,23 +32,20 @@ fun LoginScreen(
         return !isEmailError && !isPasswordError
     }
 
-
     Box(modifier = Modifier.fillMaxSize()) {
 
-        // 1. IMAGEN DE FONDO
         Image(
-            painter = painterResource(id = R.drawable.login_background), // <-- TU IMAGEN
+            painter = painterResource(id = R.drawable.login_background),
             contentDescription = "Fondo de inicio de sesión",
-            contentScale = ContentScale.Crop, // Rellena toda la pantalla
+            contentScale = ContentScale.Crop,
             modifier = Modifier.fillMaxSize()
         )
 
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color.Black.copy(alpha = 0.5f)) // 50% de opacidad
+                .background(Color.Black.copy(alpha = 0.5f))
         )
-
 
         Column(
             modifier = Modifier
@@ -57,7 +55,6 @@ fun LoginScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
-
             val fieldColors = OutlinedTextFieldDefaults.colors(
                 focusedTextColor = Color.White,
                 unfocusedTextColor = Color.White,
@@ -66,11 +63,10 @@ fun LoginScreen(
                 focusedLabelColor = Color.White,
                 unfocusedLabelColor = Color.White.copy(alpha = 0.7f),
                 cursorColor = Color.White,
-                errorTextColor = Color(0xFFFFB4AB), // Rojo claro para errores
+                errorTextColor = Color(0xFFFFB4AB),
                 errorBorderColor = Color(0xFFFFB4AB),
                 errorSupportingTextColor = Color(0xFFFFB4AB)
             )
-
 
             Text(
                 "Iniciar Sesión",
@@ -90,7 +86,8 @@ fun LoginScreen(
                 isError = isEmailError,
                 supportingText = { if (isEmailError) Text("Introduce un email válido") },
                 singleLine = true,
-                colors = fieldColors
+                colors = fieldColors,
+                textStyle = MaterialTheme.typography.bodyLarge.copy(color = Color.White)
             )
             Spacer(modifier = Modifier.height(16.dp))
 
@@ -106,7 +103,8 @@ fun LoginScreen(
                 isError = isPasswordError,
                 supportingText = { if (isPasswordError) Text("La contraseña no puede estar vacía") },
                 singleLine = true,
-                colors = fieldColors
+                colors = fieldColors,
+                textStyle = MaterialTheme.typography.bodyLarge.copy(color = Color.White)
             )
             Spacer(modifier = Modifier.height(32.dp))
 
@@ -122,7 +120,7 @@ fun LoginScreen(
             }
             TextButton(
                 onClick = onNavigateToSignUp,
-                colors = ButtonDefaults.textButtonColors(contentColor = Color.White.copy(alpha = 0.8f)) // <-- Texto blanco
+                colors = ButtonDefaults.textButtonColors(contentColor = Color.White.copy(alpha = 0.8f))
             ) {
                 Text("¿No tienes cuenta? Regístrate")
             }

@@ -24,23 +24,20 @@ fun SignUpScreen(
     var password by remember { mutableStateOf("") }
     var isEmailError by remember { mutableStateOf(false) }
 
-
     var passwordTouched by remember { mutableStateOf(false) }
     val hasMinLength = password.length >= 8
     val hasNumber = password.any { it.isDigit() }
 
     val isPasswordValid = hasMinLength && hasNumber
 
-
     fun validateEmail(): Boolean {
         isEmailError = email.isBlank() || !Patterns.EMAIL_ADDRESS.matcher(email).matches()
         return !isEmailError
     }
 
-
     @Composable
     fun PasswordRequirementText(met: Boolean, text: String) {
-        val color = if (met) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.error
+        val color = if (met) MaterialTheme.colorScheme.primary else Color(0xFFFFB4AB)
         Text(text, color = color, style = MaterialTheme.typography.bodySmall)
     }
 
@@ -98,10 +95,10 @@ fun SignUpScreen(
                 isError = isEmailError,
                 supportingText = { if (isEmailError) Text("Introduce un email válido") },
                 singleLine = true,
-                colors = fieldColors
+                colors = fieldColors,
+                textStyle = MaterialTheme.typography.bodyLarge.copy(color = Color.White)
             )
             Spacer(modifier = Modifier.height(16.dp))
-
 
             OutlinedTextField(
                 value = password,
@@ -112,11 +109,7 @@ fun SignUpScreen(
                 label = { Text("Contraseña") },
                 visualTransformation = PasswordVisualTransformation(),
                 modifier = Modifier.fillMaxWidth(),
-
-
                 isError = passwordTouched && !isPasswordValid,
-
-
                 supportingText = {
                     if (passwordTouched) {
                         Column {
@@ -132,14 +125,14 @@ fun SignUpScreen(
                     }
                 },
                 singleLine = true,
-                colors = fieldColors
+                colors = fieldColors,
+                textStyle = MaterialTheme.typography.bodyLarge.copy(color = Color.White)
             )
 
             Spacer(modifier = Modifier.height(32.dp))
 
             Button(
                 onClick = {
-
                     passwordTouched = true
 
                     if (validateEmail() && isPasswordValid) {
@@ -157,14 +150,5 @@ fun SignUpScreen(
                 Text("¿Ya tienes cuenta? Inicia Sesión")
             }
         }
-    }
-    @Composable
-    fun PasswordRequirement(
-        met: Boolean,
-        text: String
-    ) {
-
-        val color = if (met) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.error
-        Text(text, color = color, style = MaterialTheme.typography.bodySmall)
     }
 }

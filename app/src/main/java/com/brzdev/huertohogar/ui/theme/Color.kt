@@ -2,12 +2,12 @@ package com.brzdev.huertohogar.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val CremaNatural = Color(0xFFFCFAF5)
-val MarronOscuro = Color(0xFF413620)
-val VerdeBosque = Color(0xFF386641)
-val VerdeHojaSuave = Color(0xFFBCDEB4)
-val NaranjaZanahoria = Color(0xFFF28123)
-
+val BlancoSuave = Color(0xFFF7F7F7)
+val VerdeEsmeralda = Color(0xFF2E8B57)
+val AmarilloMostaza = Color(0xFFFFD700)
+val MarronClaro = Color(0xFF8B4513)
+val GrisOscuro = Color(0xFF333333)
+val GrisMedio = Color(0xFF666666)
 
 val Purple80 = Color(0xFFD0BCFF)
 val PurpleGrey80 = Color(0xFFCCC2DC)

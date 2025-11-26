@@ -23,6 +23,7 @@ import com.brzdev.huertohogar.ui.view.CartScreen
 import com.brzdev.huertohogar.ui.view.CheckoutScreen
 import com.brzdev.huertohogar.ui.view.HomeScreen
 import com.brzdev.huertohogar.ui.view.LoginScreen
+import com.brzdev.huertohogar.ui.view.OrderHistoryScreen
 import com.brzdev.huertohogar.ui.view.ProductListScreen
 import com.brzdev.huertohogar.ui.view.ProfileScreen
 import com.brzdev.huertohogar.ui.view.SignUpScreen
@@ -95,10 +96,11 @@ fun MainAppNavigation(authViewModel: AuthViewModel, cartViewModel: CartViewModel
         "profile" -> "Mi Perfil"
         "checkout" -> "Finalizar Compra"
         "storeMap" -> "Nuestras Tiendas"
+        "orderHistory" -> "Mis Pedidos"
         else -> "Huerto Hogar"
     }
 
-    val routesToHideCart = listOf("cart", "profile", "checkout", "storeMap")
+    val routesToHideCart = listOf("cart", "profile", "checkout", "storeMap", "orderHistory")
     val showCartIcon = currentRoute !in routesToHideCart
     val showProfileIcon = currentRoute != "profile"
 
@@ -171,10 +173,15 @@ fun MainAppNavigation(authViewModel: AuthViewModel, cartViewModel: CartViewModel
             }
 
             composable("profile") {
-                ProfileScreen(authViewModel = authViewModel)
+                ProfileScreen(
+                    authViewModel = authViewModel,
+                    onMyOrdersClick = { navController.navigate("orderHistory") }
+                )
             }
 
-
+            composable("orderHistory") {
+                OrderHistoryScreen()
+            }
         }
     }
 }

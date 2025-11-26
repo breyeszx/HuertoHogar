@@ -3,6 +3,12 @@ package com.brzdev.huertohogar
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import com.brzdev.huertohogar.ui.theme.HuertoHogarTheme
 
 class MainActivity : ComponentActivity() {
@@ -10,7 +16,15 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             HuertoHogarTheme {
-                AppNavigation()
+                Box(modifier = Modifier.fillMaxSize()) {
+                    Image(
+                        painter = painterResource(id = R.drawable.paper_texture),
+                        contentDescription = "Textura de papel de fondo",
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier.fillMaxSize()
+                    )
+                    AppNavigation()
+                }
             }
         }
     }

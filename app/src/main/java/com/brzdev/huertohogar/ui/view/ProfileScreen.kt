@@ -8,6 +8,7 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -21,15 +22,16 @@ import com.google.android.gms.location.LocationServices
 import java.util.Locale
 
 @Composable
-fun ProfileScreen(authViewModel: AuthViewModel) {
+fun ProfileScreen(
+    authViewModel: AuthViewModel,
+    onMyOrdersClick: () -> Unit
+) {
 
     val userProfile by authViewModel.currentUser.collectAsState()
     val context = LocalContext.current
 
-
     var address by remember { mutableStateOf("") }
     var phone by remember { mutableStateOf("") }
-
 
     LaunchedEffect(userProfile) {
         userProfile?.let {
@@ -38,18 +40,14 @@ fun ProfileScreen(authViewModel: AuthViewModel) {
         }
     }
 
-
     val locationClient = remember { LocationServices.getFusedLocationProviderClient(context) }
     val geocoder = remember(context) { Geocoder(context, Locale.getDefault()) }
 
-
     fun getAddressFromLocation(lat: Double, lon: Double) {
         try {
-
             val addresses = geocoder.getFromLocation(lat, lon, 1)
             if (addresses != null && addresses.isNotEmpty()) {
                 val foundAddress = addresses[0]
-
                 address = foundAddress.getAddressLine(0) ?: "Dirección no encontrada"
             }
         } catch (e: Exception) {
@@ -57,15 +55,12 @@ fun ProfileScreen(authViewModel: AuthViewModel) {
         }
     }
 
-
     fun fetchCurrentLocation() {
-
         if (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
 
             locationClient.lastLocation
                 .addOnSuccessListener { location ->
                     if (location != null) {
-
                         getAddressFromLocation(location.latitude, location.longitude)
                     } else {
                         Toast.makeText(context, "No se pudo obtener la ubicación. Activa el GPS.", Toast.LENGTH_SHORT).show()
@@ -77,35 +72,27 @@ fun ProfileScreen(authViewModel: AuthViewModel) {
         }
     }
 
-
     val permissionLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestPermission(),
         onResult = { isGranted ->
             if (isGranted) {
-
                 fetchCurrentLocation()
             } else {
-
                 Toast.makeText(context, "Permiso de ubicación denegado", Toast.LENGTH_SHORT).show()
             }
         }
     )
 
-
     fun checkAndRequestPermission() {
         when (PackageManager.PERMISSION_GRANTED) {
             ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) -> {
-
                 fetchCurrentLocation()
             }
             else -> {
-
                 permissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
             }
         }
     }
-
-
 
     Column(
         modifier = Modifier
@@ -146,12 +133,21 @@ fun ProfileScreen(authViewModel: AuthViewModel) {
 
         Button(
             onClick = {
-
                 authViewModel.saveUserProfile(address, phone, context)
             },
             modifier = Modifier.fillMaxWidth()
         ) {
             Text("GUARDAR PERFIL")
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        OutlinedButton(
+            onClick = onMyOrdersClick,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Icon(Icons.Default.List, contentDescription = null, modifier = Modifier.padding(end = 8.dp))
+            Text("VER MIS PEDIDOS")
         }
     }
 }

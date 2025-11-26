@@ -11,30 +11,28 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 
-// --- ASIGNACIÓN DE LA NUEVA PALETA ---
-
 private val LightColorScheme = lightColorScheme(
-    primary = VerdeBosque,
-    secondary = NaranjaZanahoria,
-    background = CremaNatural,
-    surface = VerdeHojaSuave,
-
-    onPrimary = CremaNatural,
-    onSecondary = Color.White,
-    onBackground = MarronOscuro,
-    onSurface = MarronOscuro
+    primary = VerdeEsmeralda,
+    secondary = AmarilloMostaza,
+    background = BlancoSuave,
+    surface = BlancoSuave,
+    onPrimary = Color.White,
+    onSecondary = GrisOscuro,
+    onBackground = GrisOscuro,
+    onSurface = GrisOscuro,
+    onSurfaceVariant = GrisMedio
 )
 
-
 private val DarkColorScheme = lightColorScheme(
-    primary = VerdeBosque,
-    secondary = NaranjaZanahoria,
-    background = CremaNatural,
-    surface = VerdeHojaSuave,
-    onPrimary = CremaNatural,
-    onSecondary = Color.White,
-    onBackground = MarronOscuro,
-    onSurface = MarronOscuro
+    primary = VerdeEsmeralda,
+    secondary = AmarilloMostaza,
+    background = BlancoSuave,
+    surface = BlancoSuave,
+    onPrimary = Color.White,
+    onSecondary = GrisOscuro,
+    onBackground = GrisOscuro,
+    onSurface = GrisOscuro,
+    onSurfaceVariant = GrisMedio
 )
 
 @Composable
@@ -43,14 +41,12 @@ fun HuertoHogarTheme(
     dynamicColor: Boolean = false,
     content: @Composable () -> Unit
 ) {
-
-    val colorScheme = LightColorScheme
+    val colorScheme = if (darkTheme) DarkColorScheme else LightColorScheme
 
     val view = LocalView.current
     if (!view.isInEditMode) {
         SideEffect {
             val window = (view.context as Activity).window
-
             window.statusBarColor = colorScheme.primary.toArgb()
             WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = darkTheme
         }
