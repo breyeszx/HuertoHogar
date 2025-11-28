@@ -9,30 +9,47 @@ import kotlinx.coroutines.flow.*
 class ProductViewModel : ViewModel() {
     private val allProducts = DataSource.products
 
-    // Obtiene los nombres de las categorías y añade "Todos" al principio
     val categories: List<String> = listOf("Todos") + DataSource.categories.map { it.name }
 
-    // Estado para la categoría seleccionada. El valor inicial es "Todos"
     private val _selectedCategory = MutableStateFlow("Todos")
     val selectedCategory: StateFlow<String> = _selectedCategory.asStateFlow()
 
-    // Flujo de productos filtrados que reacciona a los cambios en _selectedCategory
-    val filteredProducts: StateFlow<List<Product>> = _selectedCategory.map { category ->
-        if (category == "Todos") {
-            allProducts
-        } else {
-            // Filtra la lista de productos basada en el nombre de la categoría
-            allProducts.filter { it.category == category }
+    // --- NUEVO ESTADO PARA LA BÚSQUEDA ---
+    private val _searchQuery = MutableStateFlow("")
+    val searchQuery: StateFlow<String> = _searchQuery.asStateFlow()
+
+    // Combinamos category, searchQuery y la lista original para filtrar
+    val filteredProducts: StateFlow<List<Product>> = combine(
+        _selectedCategory,
+        _searchQuery
+    ) { category, query ->
+        var products = allProducts
+
+        // 1. Filtro por Categoría
+        if (category != "Todos") {
+            products = products.filter { it.category == category }
         }
+
+        // 2. Filtro por Texto (Nombre)
+        if (query.isNotEmpty()) {
+            products = products.filter {
+                it.name.contains(query, ignoreCase = true)
+            }
+        }
+
+        products
     }.stateIn(
-        // Inicia el flujo y lo mantiene activo mientras la UI esté visible
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5000),
-        initialValue = allProducts // Muestra todos los productos al inicio
+        initialValue = allProducts
     )
 
-    // Función para que la UI actualice la categoría seleccionada
     fun selectCategory(category: String) {
         _selectedCategory.value = category
+    }
+
+    // --- NUEVA FUNCIÓN PARA ACTUALIZAR BÚSQUEDA ---
+    fun onSearchQueryChanged(query: String) {
+        _searchQuery.value = query
     }
 }

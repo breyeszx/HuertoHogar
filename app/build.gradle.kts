@@ -68,4 +68,5 @@ dependencies {
     implementation("androidx.room:room-ktx:$room_version") // Para Coroutines
     ksp("androidx.room:room-compiler:$room_version")
     implementation("com.google.android.gms:play-services-location:21.2.0")
+    implementation("androidx.compose.material:material-icons-extended:1.6.8")
 }

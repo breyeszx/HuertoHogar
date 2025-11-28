@@ -18,7 +18,8 @@ fun HuertoHogarTopAppBar(
     onProfileClick: () -> Unit,
     onSignOutClick: () -> Unit,
     showCartIcon: Boolean = true,
-    showProfileIcon: Boolean = true
+    showProfileIcon: Boolean = true,
+    cartItemCount: Int = 0
 ) {
     TopAppBar(
         title = { Text(title) },
@@ -32,14 +33,21 @@ fun HuertoHogarTopAppBar(
                 }
             }
         },
-
         actions = {
             if (showCartIcon) {
                 IconButton(onClick = onCartClick) {
-                    Icon(
-                        imageVector = Icons.Default.ShoppingCart,
-                        contentDescription = "Carrito"
-                    )
+                    BadgedBox(
+                        badge = {
+                            if (cartItemCount > 0) {
+                                Badge { Text(cartItemCount.toString()) }
+                            }
+                        }
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.ShoppingCart,
+                            contentDescription = "Carrito"
+                        )
+                    }
                 }
             }
             if (showProfileIcon) {

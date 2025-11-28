@@ -18,12 +18,12 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.brzdev.huertohogar.data.DataSource
 import com.brzdev.huertohogar.ui.HuertoHogarTopAppBar
-import com.brzdev.huertohogar.ui.ProductDetailScreen
 import com.brzdev.huertohogar.ui.view.CartScreen
 import com.brzdev.huertohogar.ui.view.CheckoutScreen
 import com.brzdev.huertohogar.ui.view.HomeScreen
 import com.brzdev.huertohogar.ui.view.LoginScreen
 import com.brzdev.huertohogar.ui.view.OrderHistoryScreen
+import com.brzdev.huertohogar.ui.view.ProductDetailScreen
 import com.brzdev.huertohogar.ui.view.ProductListScreen
 import com.brzdev.huertohogar.ui.view.ProfileScreen
 import com.brzdev.huertohogar.ui.view.SignUpScreen
@@ -88,6 +88,9 @@ fun MainAppNavigation(authViewModel: AuthViewModel, cartViewModel: CartViewModel
 
     val productViewModel: ProductViewModel = viewModel()
 
+    val cartItems by cartViewModel.cartItems.collectAsState()
+    val totalItemsInCart = cartItems.sumOf { it.quantity }
+
     val currentScreenTitle = when (currentRoute) {
         "home" -> "Inicio"
         "productList" -> "Productos"
@@ -95,12 +98,11 @@ fun MainAppNavigation(authViewModel: AuthViewModel, cartViewModel: CartViewModel
         "cart" -> "Mi Carrito"
         "profile" -> "Mi Perfil"
         "checkout" -> "Finalizar Compra"
-        "storeMap" -> "Nuestras Tiendas"
         "orderHistory" -> "Mis Pedidos"
         else -> "Huerto Hogar"
     }
 
-    val routesToHideCart = listOf("cart", "profile", "checkout", "storeMap", "orderHistory")
+    val routesToHideCart = listOf("cart", "profile", "checkout", "orderHistory")
     val showCartIcon = currentRoute !in routesToHideCart
     val showProfileIcon = currentRoute != "profile"
 
@@ -116,7 +118,8 @@ fun MainAppNavigation(authViewModel: AuthViewModel, cartViewModel: CartViewModel
                 onSignOutClick = { authViewModel.signOut() },
 
                 showCartIcon = showCartIcon,
-                showProfileIcon = showProfileIcon
+                showProfileIcon = showProfileIcon,
+                cartItemCount = totalItemsInCart
             )
         }
     ) { innerPadding ->
@@ -148,7 +151,9 @@ fun MainAppNavigation(authViewModel: AuthViewModel, cartViewModel: CartViewModel
                 if (product != null) {
                     ProductDetailScreen(
                         product = product,
-                        onAddToCartClicked = { cartViewModel.addToCart(product) }
+                        onAddToCartClicked = { quantity ->
+                            cartViewModel.addToCart(product, quantity)
+                        }
                     )
                 }
             }

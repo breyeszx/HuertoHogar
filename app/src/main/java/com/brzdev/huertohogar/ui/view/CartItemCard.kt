@@ -3,8 +3,8 @@ package com.brzdev.huertohogar.ui.view
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Remove
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -57,7 +57,7 @@ fun CartItemCard(
 
             Row(verticalAlignment = Alignment.CenterVertically) {
                 IconButton(onClick = onDecrease) {
-                    Icon(Icons.Default.ArrowBack, contentDescription = "Disminuir cantidad")
+                    Icon(Icons.Default.Remove, contentDescription = "Disminuir cantidad")
                 }
                 Text("${cartItem.quantity}", style = MaterialTheme.typography.bodyLarge)
                 IconButton(onClick = onIncrease) {
