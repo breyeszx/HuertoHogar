@@ -30,7 +30,6 @@ android {
         }
     }
     compileOptions {
-        // Con Kotlin 2.0, puedes apuntar a versiones más modernas de Java
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
@@ -40,7 +39,7 @@ android {
     buildFeatures {
         compose = true
     }
-    // El bloque composeOptions ya no es necesario con el nuevo plugin si no tienes configuraciones especiales
+
 }
 
 dependencies {
@@ -65,8 +64,13 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.2")
     val room_version = "2.6.1"
     implementation("androidx.room:room-runtime:$room_version")
-    implementation("androidx.room:room-ktx:$room_version") // Para Coroutines
+    implementation("androidx.room:room-ktx:$room_version")
     ksp("androidx.room:room-compiler:$room_version")
     implementation("com.google.android.gms:play-services-location:21.2.0")
     implementation("androidx.compose.material:material-icons-extended:1.6.8")
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    testImplementation("junit:junit:4.13.2")
+    testImplementation("io.mockk:mockk:1.13.5")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
 }
