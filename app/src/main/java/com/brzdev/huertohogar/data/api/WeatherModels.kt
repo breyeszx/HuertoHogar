@@ -1,17 +1,23 @@
 package com.brzdev.huertohogar.data.api
 
+import androidx.annotation.Keep
+import com.google.gson.annotations.SerializedName
+
+@Keep // Evita que R8 elimine o modifique esta clase
 data class WeatherResponse(
-    val main: Main,
-    val weather: List<Weather>,
-    val name: String
+    @SerializedName("main") val main: Main,
+    @SerializedName("weather") val weather: List<Weather>,
+    @SerializedName("name") val name: String
 )
 
+@Keep
 data class Main(
-    val temp: Double,
-    val humidity: Int
+    @SerializedName("temp") val temp: Double,
+    @SerializedName("humidity") val humidity: Int
 )
 
+@Keep
 data class Weather(
-    val description: String,
-    val icon: String
+    @SerializedName("description") val description: String,
+    @SerializedName("icon") val icon: String
 )
